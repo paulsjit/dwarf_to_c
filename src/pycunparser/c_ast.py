@@ -69,13 +69,24 @@ class Node(object):
         buf.write('\n')
 
         for (child_name, child) in self.children():
-            child.show(
-                buf,
-                offset=offset + 2,
-                attrnames=attrnames,
-                nodenames=nodenames,
-                showcoord=showcoord,
-                _my_node_name=child_name)
+            if isinstance(child, list):
+                for i, c in zip(range(len(child)), child):
+                    c.show(
+                        buf,
+                        offset=offset + 2 + 2 * i,
+                        attrnames=attrnames,
+                        nodenames=nodenames,
+                        showcoord=showcoord,
+                        _my_node_name=child_name)
+
+            else:
+                child.show(
+                    buf,
+                    offset=offset + 2,
+                    attrnames=attrnames,
+                    nodenames=nodenames,
+                    showcoord=showcoord,
+                    _my_node_name=child_name)
 
 
 class NodeVisitor(object):
